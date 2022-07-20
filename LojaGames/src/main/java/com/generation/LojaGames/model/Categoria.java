@@ -4,6 +4,8 @@ import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -17,24 +19,28 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 public class Categoria {
 	
 	@Id
-	private long id;
+	@GeneratedValue (strategy = GenerationType.IDENTITY)
+	private Long id;
 	
 	@NotNull
-	@Size(min = 5, max = 100,  message = "nome não pode ser nulo")
+	@Size( max = 100)
 	private String nome;
 	
 	@Size(min = 5, max = 100)
 	private String descricao;
 	
 	@OneToMany(mappedBy = "categoria", cascade = CascadeType.REMOVE)
-	@JsonIgnoreProperties("categora")
+	@JsonIgnoreProperties("categoria")
 	private List<Produto> produto;
 
-	public long getId() {
+	
+	
+	
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(long id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 

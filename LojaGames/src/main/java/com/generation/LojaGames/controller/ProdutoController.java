@@ -25,7 +25,7 @@ import com.generation.LojaGames.repository.ProdutoRepository;
 
 
 @RestController
-@RequestMapping("/produto")
+@RequestMapping("/produtos")
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 public class ProdutoController {
 
@@ -48,13 +48,13 @@ public class ProdutoController {
 			.orElse(ResponseEntity.notFound().build());
 	}
 	
-	@GetMapping("/titulo/{titulo}")
+	@GetMapping("/nome/{nome}")
 	public ResponseEntity<List<Produto>> getByNome(@PathVariable String nome){
 		return ResponseEntity.ok(produtoRepository.findAllByNomeContainingIgnoreCase(nome));
 	}
 	
 	@PostMapping
-	public ResponseEntity<Produto> postPostagem (@Valid @RequestBody Produto produto){
+	public ResponseEntity<Produto> postProduto(@Valid @RequestBody Produto produto){
 		
 		/** Checa antes de Persistir o Objeto Postagem se o Tema existe 
 		 *  Se o Objeto Tema não existir, o status devolvido será Bad Request (400).
@@ -62,9 +62,10 @@ public class ProdutoController {
 
 		if (categoriaRepository.existsById(produto.getCategoria().getId()))
 			return ResponseEntity.status(HttpStatus.CREATED).body(produtoRepository.save(produto));
-	
+			
+		//return ResponseEntity.notFound().build();
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
-	
+		
 	}
 	
 	@PutMapping
@@ -94,7 +95,7 @@ public class ProdutoController {
 	}
 	
 	@DeleteMapping("/{id}")
-	public ResponseEntity<?> deletePostagem(@PathVariable Long id) {
+	public ResponseEntity<?> deleteProduto (@PathVariable Long id) {
 		
 		return produtoRepository.findById(id)
 				.map(resposta -> {

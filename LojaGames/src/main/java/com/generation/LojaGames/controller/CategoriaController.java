@@ -21,7 +21,7 @@ import com.generation.LojaGames.model.Categoria;
 import com.generation.LojaGames.repository.CategoriaRepository;
 
 @RestController
-@RequestMapping("/temas")
+@RequestMapping("/categorias")
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 public class CategoriaController {
 
@@ -47,12 +47,12 @@ public class CategoriaController {
 	}
 
 	@PostMapping
-	public ResponseEntity<Categoria> postTema(@Valid @RequestBody Categoria categoria) {
+	public ResponseEntity<Categoria> postCategoria(@Valid @RequestBody Categoria categoria) {
 		return ResponseEntity.status(HttpStatus.CREATED).body(categoriaRepository.save(categoria));
 	}
 
 	@PutMapping
-	public ResponseEntity<Categoria> putTema(@Valid @RequestBody Categoria categoria) {
+	public ResponseEntity<Categoria> putCategoria(@Valid @RequestBody Categoria categoria) {
 					
 		return categoriaRepository.findById(categoria.getId())
 				.map(resposta -> {
@@ -63,7 +63,7 @@ public class CategoriaController {
 	}
 
 	@DeleteMapping("/{id}")
-	public ResponseEntity<?> deleteTema(@PathVariable Long id) {
+	public ResponseEntity<?> deleteCategoria(@PathVariable Long id) {
 		
 		return categoriaRepository.findById(id)
 				.map(resposta -> {

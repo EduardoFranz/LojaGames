@@ -1,5 +1,6 @@
 package com.generation.LojaGames.model;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 import javax.persistence.Column;
@@ -9,11 +10,14 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.DecimalMin;
+import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import org.hibernate.annotations.UpdateTimestamp;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
@@ -29,16 +33,18 @@ public class Produto {
 	private String nome;
 	
 	@NotNull
-	@Column(precision=10, scale=2)
-	private double preco;
+	@DecimalMin(value = "0.0", inclusive = false, message ="valor precisa ser maior que 0.0")
+	@Digits(integer=3, fraction=2)
+	private BigDecimal preco;
 	
 	@UpdateTimestamp
+	@JsonFormat(pattern = "yyyy-MM-dd")
 	private LocalDateTime data;
 	
 	
-	private int quantidade;
+	private Integer quantidade;
 	
-	@Size(min=10, max=100, message = "o minímo de 10 caracteres")
+	@Size(max=100)
 	private String descricao;
 
 	
@@ -66,11 +72,11 @@ public class Produto {
 		this.nome = nome;
 	}
 
-	public double getPreco() {
+	public BigDecimal getPreco() {
 		return preco;
 	}
 
-	public void setPreco(double preco) {
+	public void setPreco(BigDecimal preco) {
 		this.preco = preco;
 	}
 
@@ -82,11 +88,11 @@ public class Produto {
 		this.data = data;
 	}
 
-	public int getQuantidade() {
+	public Integer getQuantidade() {
 		return quantidade;
 	}
 
-	public void setQuantidade(int quantidade) {
+	public void setQuantidade(Integer quantidade) {
 		this.quantidade = quantidade;
 	}
 
